@@ -15,6 +15,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="PostSharp" Version="6.9.5">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Abp.Zero.SampleApp\Abp.Zero.SampleApp.csproj" />
     <ProjectReference Include="..\..\src\Abp.Zero.EntityFramework\Abp.Zero.EntityFramework.csproj" />
   </ItemGroup>

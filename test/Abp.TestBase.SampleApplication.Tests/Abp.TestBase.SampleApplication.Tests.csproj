@@ -14,6 +14,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="PostSharp" Version="6.9.5">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Abp.TestBase.SampleApplication\Abp.TestBase.SampleApplication.csproj" />
     <ProjectReference Include="..\Abp.Tests\Abp.Tests.csproj" />
   </ItemGroup>

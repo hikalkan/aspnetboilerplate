@@ -45,6 +45,7 @@ namespace Abp
 
         private AbpModuleManager _moduleManager;
         private ILogger _logger;
+        private bool _enablePostSharp;
 
         /// <summary>
         /// Creates a new <see cref="AbpBootstrapper"/> instance.
@@ -70,7 +71,9 @@ namespace Abp
 
             _logger = NullLogger.Instance;
 
-            if (!options.DisableAllInterceptors)
+            _enablePostSharp = options.EnablePostSharp && !options.DisableAllInterceptors;
+
+            if (!options.DisableAllInterceptors && !options.EnablePostSharp)
             {
                 AddInterceptorRegistrars();
             }
@@ -99,11 +102,17 @@ namespace Abp
 
         private void AddInterceptorRegistrars()
         {
-            ValidationInterceptorRegistrar.Initialize(IocManager);
-            AuditingInterceptorRegistrar.Initialize(IocManager);
-            EntityHistoryInterceptorRegistrar.Initialize(IocManager);
-            UnitOfWorkRegistrar.Initialize(IocManager);
-            AuthorizationInterceptorRegistrar.Initialize(IocManager);
+            var modules = AbpModule.FindDependedModuleTypesRecursivelyIncludingGivenModule(StartupModule);
+
+            if (StartupModule.Name != "AbpPostSharpModule"
+                && modules.FindIndex(m => m.Name == "AbpPostSharpModule") == -1)
+            {
+                ValidationInterceptorRegistrar.Initialize(IocManager);
+                AuditingInterceptorRegistrar.Initialize(IocManager);
+                EntityHistoryInterceptorRegistrar.Initialize(IocManager);
+                UnitOfWorkRegistrar.Initialize(IocManager);
+                AuthorizationInterceptorRegistrar.Initialize(IocManager);
+            }
         }
 
         /// <summary>
@@ -117,6 +126,12 @@ namespace Abp
             {
                 RegisterBootstrapper();
                 IocManager.IocContainer.Install(new AbpCoreInstaller());
+
+                if (_enablePostSharp)
+                {
+                    IPostSharpOptions postSharpOptions = IocManager.Resolve<IPostSharpOptions>();
+                    postSharpOptions.EnablePostSharp = true;
+                }
 
                 IocManager.Resolve<AbpPlugInManager>().PlugInSources.AddRange(PlugInSources);
                 IocManager.Resolve<AbpStartupConfiguration>().Initialize();

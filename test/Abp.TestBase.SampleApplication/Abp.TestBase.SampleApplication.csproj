@@ -21,6 +21,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="PostSharp" Version="6.9.5">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Abp.AutoMapper\Abp.AutoMapper.csproj" />
     <ProjectReference Include="..\..\src\Abp.EntityFramework\Abp.EntityFramework.csproj" />
     <ProjectReference Include="..\..\src\Abp.TestBase\Abp.TestBase.csproj" />

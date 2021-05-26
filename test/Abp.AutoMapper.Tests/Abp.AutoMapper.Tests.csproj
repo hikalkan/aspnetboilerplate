@@ -19,6 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="PostSharp" Version="6.9.5">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
